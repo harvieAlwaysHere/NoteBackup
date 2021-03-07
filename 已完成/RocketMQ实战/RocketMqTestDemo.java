@@ -1,7 +1,3 @@
-/**
- * cmft.com Inc.
- * Copyright (c) 1872-2019 All Rights Reserved.
- */
 package com.cmft.marathon.rocketmqDemo.presentation.rest;
 
 import com.alibaba.fastjson.JSON;
