@@ -15,11 +15,11 @@
 
 * 常量，const name = value
 
-* 循环，for init; conditon; after {}
+* 循环，for (init;) conditon(; after) {}
 
   * 控制循环，break/return/continue
 
-* 判断，if (init); condition {}
+* 判断，if (init;) condition {}
 
 * 多分支判断
 
@@ -148,25 +148,62 @@ type person struct {
     age int
 }
 
-// 结构体方法 值传递 生成结构体拷贝
-func (r *rect) printPerson1() string {
-    return "name is " + r.name + "age is" + r.age
-}
 // 结构体方法 指针传递 可修改结构体值
-func (r rect) printPerson2() string {
-    return "name is " + r.name + "age is" + r.age
+func (p *person) printPerson1() string {
+    return "name is " + p.name + "age is" + p.age
+}
+// 结构体方法 值传递 生成结构体拷贝
+func (p person) printPerson2() string {
+    return "name is " + p.name + "age is" + p.age
+}
+
+// 接口
+type behavior interface {
+	getName() string
+	getAge() int
+}
+
+// 结构体实现接口
+func (p *person) getName() string {
+	return p.name
+}
+
+func (p *person) getAge() int {
+	return p.age
 }
 
 func main(){
-    person = person{name : "Harvie", age : 25}
+    person := person{name : "Harvie", age : 25}
     fmt.Println(person.printPerson1())
     fmt.Println(person.printPerson2())
     
-    personPtr := &person
+    personPtr := &person  // 指针调用 避免产生拷贝或修改结构体值
     fmt.Println(personPtr.printPerson1())
     fmt.Println(personPtr.printPerson2())
 }
 ```
 
+#### Error
 
+```go
+// 自定义Error结构体
+type myError struct {
+	code int
+	message string
+}
+
+// 实现Error接口
+func (m myError) Error() string {
+	return "code is " + strconv.Itoa(m.code) + ", message is " + m.message
+}
+
+// 返回自定义Error
+func getError(arg int) (int, error){
+	if arg > 0 {
+		return arg, nil
+	}else {
+		return -1, &myError{-1, "myError"}  // 构建自定义Error
+	}
+}
+```
 
